@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="CIP risk calculator for patients with non-small cell lung cancer receiving first-line immunotherapy." />
+    <title>CIP Risk Calculator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="CIP Risk Calculator home">
+        <span class="brand-mark" aria-hidden="true">CIP</span>
+        <span>Risk Calculator</span>
+      </a>
+      <span class="version">Updated model · 2026</span>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Clinical prediction tool</p>
+          <h1>Estimate the risk of immune checkpoint inhibitor-related pneumonitis</h1>
+          <p class="hero-text">For patients with non-small cell lung cancer receiving first-line immunotherapy. Enter all six pretreatment factors to obtain an individualized model estimate.</p>
+          <div class="model-badges" aria-label="Model summary">
+            <span>6 predictors</span><span>Logistic regression</span><span>Calculated locally</span>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Current prediction" aria-live="polite">
+          <span class="hero-card-label">Predicted risk of CIP</span>
+          <strong id="hero-risk">—</strong>
+          <span id="hero-status">Complete the patient information</span>
+        </aside>
+      </section>
+
+      <section class="calculator-grid" aria-label="CIP risk calculation">
+        <form id="calculator" class="card input-card" novalidate>
+          <div class="section-title">
+            <div><span class="step">01</span><div><p class="eyebrow">Patient information</p><h2>Enter predictor values</h2></div></div>
+            <p>Choose Yes or No for each clinical factor, then enter serum creatinine.</p>
+          </div>
+
+          <div id="factor-list" class="factor-list"></div>
+
+          <div class="continuous-factor" id="creatinine-field">
+            <div class="factor-copy">
+              <label for="serum-creatinine">Serum creatinine</label>
+              <span>Pretreatment serum creatinine concentration.</span>
+            </div>
+            <div class="number-control">
+              <div class="number-input-wrap">
+                <input id="serum-creatinine" name="Serum_creatinine" type="number" inputmode="decimal" min="40" max="260" step="0.1" placeholder="e.g. 80" required aria-describedby="creatinine-help creatinine-error" />
+                <span class="unit">µmol/L</span>
+              </div>
+              <span id="creatinine-help" class="field-help">Model display range: 40–260 µmol/L</span>
+              <span id="creatinine-error" class="field-error" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Calculate risk <span aria-hidden="true">→</span></button>
+            <button class="secondary-button" type="reset">Reset</button>
+          </div>
+        </form>
+
+        <aside class="card result-card" aria-labelledby="result-title">
+          <div class="section-title compact">
+            <div><span class="step">02</span><div><p class="eyebrow">Result</p><h2 id="result-title">Estimated CIP risk</h2></div></div>
+          </div>
+
+          <div id="empty-result" class="empty-result">
+            <div class="empty-icon" aria-hidden="true">%</div>
+            <strong>Ready when you are</strong>
+            <p>The estimate will appear here after all patient information is complete.</p>
+          </div>
+
+          <div id="result-content" class="result-content" hidden aria-live="polite">
+            <div class="risk-value" id="risk-percent">—</div>
+            <p class="risk-caption">Predicted probability of CIP</p>
+            <div class="risk-scale" aria-hidden="true"><span id="risk-marker"></span></div>
+            <div class="scale-labels" aria-hidden="true"><span>0%</span><span>50%</span><span>100%</span></div>
+
+            <dl class="result-metrics">
+              <div><dt>Linear predictor (logit)</dt><dd id="logit-value">—</dd></div>
+              <div><dt>Positive binary factors</dt><dd id="selected-count">—</dd></div>
+              <div><dt>Serum creatinine</dt><dd id="creatinine-value">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="privacy-note"><span aria-hidden="true">✓</span><p><strong>No data are sent or stored.</strong><br />All calculations run in this browser.</p></div>
+          <p class="clinical-note"><strong>Important:</strong> This tool supports risk estimation only. It does not replace clinical assessment, diagnostic testing, or local treatment protocols.</p>
+        </aside>
+      </section>
+
+      <section class="card contribution-card" id="contribution-section" hidden aria-labelledby="contribution-title">
+        <div class="section-title">
+          <div><span class="step">03</span><div><p class="eyebrow">Model profile</p><h2 id="contribution-title">Patient-specific contributions</h2></div></div>
+          <p>Each bar shows that predictor's additive contribution to the model's linear predictor. These are model coefficients, not clinical thresholds.</p>
+        </div>
+        <div id="contribution-list" class="contribution-list"></div>
+      </section>
+
+      <section class="model-section" aria-labelledby="model-title">
+        <div class="model-intro">
+          <p class="eyebrow">Model transparency</p>
+          <h2 id="model-title">Updated logistic regression model</h2>
+          <p>The September 2026 update adds serum creatinine as a continuous predictor and updates the intercept and all five binary-predictor coefficients.</p>
+          <details>
+            <summary>View calculation formula</summary>
+            <div class="formula" id="formula"></div>
+          </details>
+        </div>
+        <div class="table-wrap" tabindex="0" aria-label="Model parameter table">
+          <table>
+            <thead><tr><th>Predictor</th><th>β</th><th>Odds ratio (95% CI)</th><th><em>p</em></th></tr></thead>
+            <tbody id="parameter-table"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>CIP Risk Calculator · Updated six-predictor model</p><p>For clinical research and decision support.</p></footer>
+    <script src="./model.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

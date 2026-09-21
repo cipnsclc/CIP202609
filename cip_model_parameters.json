@@ -1,0 +1,22 @@
+{
+  "model_name": "CIP_Prediction_Model_2026_09",
+  "intercept": -4.22528841827508,
+  "coefficients": {
+    "Radiotherapy1": 1.75560227137642,
+    "Reticular_opacities1": 1.12757153019604,
+    "Heart_disease1": 1.16852167379068,
+    "COPD1": 0.864630360364469,
+    "Lung_surgery1": 0.665227067503401,
+    "Serum_creatinine": 0.0199672367712955
+  },
+  "odds_ratios": {
+    "Radiotherapy1": 5.78693199611675,
+    "Reticular_opacities1": 3.08814791266982,
+    "Heart_disease1": 3.21723300137973,
+    "COPD1": 2.37412835182577,
+    "Lung_surgery1": 1.94493210207732,
+    "Serum_creatinine": 1.02016791548448
+  },
+  "serum_creatinine_unit": "µmol/L",
+  "serum_creatinine_display_range": [40, 260]
+}
